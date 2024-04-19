@@ -1,5 +1,5 @@
 #!/bin/bash
-#hhh
+
 #install mc ; mc可以用来下载上传oss上的文件
 function install_mc() {
 	sudo wget --no-check-certificate -q http://oss.mthreads.com/installation-files/minio/2021-04-22/mc -O /usr/local/bin/mc; sudo chmod 755 /usr/local/bin/mc
