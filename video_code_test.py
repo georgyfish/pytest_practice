@@ -99,23 +99,28 @@ def hard_decode_video(video_file):
             && timeout 30 mpv --hwdec=vaapi --vo=gpu '{video_file}' --fs --loop &"
         # command = f" export DISPLAY=:0.0 && timeout {time}  deepin-movie  '{video_file}' &"
         print(command)
-        subprocess.run(command, shell=True, check=True)
-        if not check_decode_status:
+        cmd_ouput = subprocess.run(command, shell=True, stdout=subprocess.PIPE).stdout.decode()
+        ouput_list = cmd_ouput.split('\n')
+        for out in ouput_list:
+            if "Using hardware decoding" in out:
+                print('正在使用硬解')
+                return True
+        if not check_decode_status():
             return False
     except subprocess.CalledProcessError:
         return False
 
 def test_av1():
-    assert hard_decode_video(/home/swqa/testdata/mm_video/1080P/AV1,20) == pass
+    assert hard_decode_video('/home/georgy/Desktop/testdata/video/DVT/Test_1080P.mp4') == False
 
-@pytest.mark.parametrize(
-    "video_file,expected",
-    [
-        ('/home/swqa/testdata/mm_video/1080P/AV1_8BIT',False),
-        (),
-        (),
-    ]
-)
+# @pytest.mark.parametrize(
+#     "video_file,expected",
+#     [
+#         ('/home/swqa/testdata/mm_video/1080P/AV1_8BIT',False),
+#         (),
+#         (),
+#     ]
+# )
 
 def main():
     # directory = '/home/swqa/testdata/mm_video/1080P/'  # 替换视频文件夹路径
@@ -155,4 +160,5 @@ def main():
         # print('=='*50)
 
 if __name__ == "__main__":
-    main()
+    # main()
+    pass
